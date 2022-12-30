@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Typography from '@mui/material/Typography';
 import { getUserEmail } from 'redux/auth/authSelectors';
 import { logout } from 'redux/auth/authOperations';
@@ -11,7 +12,7 @@ export const UserMenu = () => {
   return (
     <>
       <Typography sx={{ mr: 2 }}>{userEmail ? userEmail : null}</Typography>
-      <Button onClick={() => dispatch(logout())} color="inherit">
+      <Button onClick={() => dispatch(logout())} color="inherit" endIcon={<LogoutIcon />}>
         Logout
       </Button>
     </>

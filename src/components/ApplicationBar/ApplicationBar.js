@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import Button from '@mui/material/Button';
+import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
+import LoginIcon from '@mui/icons-material/Login';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getLoggedIn } from 'redux/auth/authSelectors';
@@ -48,7 +50,7 @@ const ApplicationBar = () => {
           </Typography>
           {!isLoggedIn ? (
             <>
-              <Button>
+              <Button color='inherit' startIcon={<AppRegistrationOutlinedIcon />}>
                 <NavLink
                   style={({ isActive }) =>
                     isActive ? activeLinkStyle : linkStyle
@@ -58,7 +60,7 @@ const ApplicationBar = () => {
                   Register
                 </NavLink>
               </Button>
-              <Button>
+              <Button  color='inherit' startIcon={<LoginIcon />} >
                 <NavLink
                   style={({ isActive }) =>
                     isActive ? activeLinkStyle : linkStyle

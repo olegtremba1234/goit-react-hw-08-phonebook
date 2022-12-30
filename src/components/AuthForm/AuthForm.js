@@ -6,6 +6,8 @@ import { Box, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import Button from '@mui/material/Button';
 import { register, login } from 'redux/auth/authOperations';
 import style from './RegisterForm.module.css';
@@ -107,6 +109,18 @@ export const AuthForm = ({ title }) => {
                       type="name"
                       validate={validateName}
                     />
+                    <IconButton
+                    style={{
+                      width: '24px',
+                      height: '24px',
+                      position: 'absolute',
+                      top: '17px',
+                      right: '7px',
+                    }}
+                    size="small"
+                  > 
+                    <BadgeOutlinedIcon />
+                  </IconButton>
                     {errors.name && touched.name && (
                       <Typography
                         variant="subtitle1"
@@ -127,6 +141,18 @@ export const AuthForm = ({ title }) => {
                     type="email"
                     validate={validateEmail}
                   />
+                  <IconButton
+                    style={{
+                      width: '24px',
+                      height: '24px',
+                      position: 'absolute',
+                      top: '17px',
+                      right: '7px',
+                    }}
+                    size="small"
+                  > 
+                    <EmailOutlinedIcon />
+                  </IconButton>
                   {errors.email && touched.email && (
                     <Typography
                       variant="subtitle1"
