@@ -1,3 +1,18 @@
+.img {
+  max-width: 1920px;
+  height: 100vh;
+   margin-left: auto;
+  margin-right: auto;
+  background-image: linear-gradient(
+      rgba(47, 48, 58, 0.1),
+      rgba(47, 48, 58, 0.1)
+    ),
+    url(../img/main.jpg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+}
+
 .inputThumb {
     position: relative;
     display: flex;

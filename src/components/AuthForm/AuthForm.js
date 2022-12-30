@@ -61,7 +61,7 @@ export const AuthForm = ({ title }) => {
   };
 
   return (
-    <div>
+    <div className={style.img}>
       <Box
         display="flex"
         flexDirection="column"
