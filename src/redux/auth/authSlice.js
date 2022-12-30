@@ -6,26 +6,20 @@ const initialState = {
     token: null,
     isLoggedIn: false,
 };
-
+const handleAuth = (state, {payload}) => {
+    state.user = payload.user;
+    state.token = payload.token;
+    state.isLoggedIn = true;
+}
 export const userSlice = createSlice({
     name: 'auth',
     initialState,
     extraReducers: (builder) => {
         builder
-        .addCase(register.fulfilled,(state, {payload}) => {
-            state.user = payload.user;
-            state.token = payload.token;
-            state.isLoggedIn = true;
-        })
+        .addCase(register.fulfilled, handleAuth)
         .addCase(
-            login.fulfilled,(state, {payload}) => {
-                state.user = payload.user;
-                state.token = payload.token;
-                state.isLoggedIn = true;
-            },
-        )
+            login.fulfilled, handleAuth)
         .addCase(
-
             logout.fulfilled,(state) => {
                 state.user = {name: null, email: null};
                 state.token = null;
