@@ -39,7 +39,7 @@ const ApplicationBar = () => {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 1 }}
           >
             <ContactsIcon/>
           </IconButton>
