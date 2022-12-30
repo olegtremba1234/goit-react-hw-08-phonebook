@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import ContactsIcon from '@mui/icons-material/Contacts';
 import Button from '@mui/material/Button';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -39,7 +40,9 @@ const ApplicationBar = () => {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-          ></IconButton>
+          >
+            <ContactsIcon/>
+          </IconButton>
           <Typography variant="h5"component="div" sx={{ flexGrow: 1 }}>
             Phonebook
           </Typography>
