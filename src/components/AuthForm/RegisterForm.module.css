@@ -1,0 +1,46 @@
+.inputThumb {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+  }
+  
+  .input {
+    width: 375px;
+    padding: 24px 12px 7px 12px;
+  
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.15px;
+    outline: none;
+    border: none;
+  
+    background: rgba(39, 45, 47, 0.245);
+    border-radius: 4px 4px 0px 0px;
+  }
+  
+  .inputText {
+    position: absolute;
+    top: 9px;
+    left: 12px;
+  
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.15px;
+    margin: 0;
+    color: rgba(18, 21, 21, 0.245);
+  }
+  
+  .buttonActive {
+    width: 375px;
+    height: 42px;
+    background: rgb(91, 8, 8);
+    color: #ffffff;
+  }
+  
+  .helpfulText {
+    position: absolute;
+    top: 55px;
+    color: rgb(91, 8, 8);
+    padding-left: 12px;
+  }

@@ -1,75 +1,110 @@
 import React, { useState } from "react";
-import style from "./ContactForm.module.css"
-import { useAddContactMutation, useGetContactsApiQuery } from "redux/contactsAPI";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { Typography } from '@mui/material';
 
-export default function ContactForm() {
+import {
+  useAddContactMutation,
+  useGetContactsQuery,
+} from 'redux/contactsAPI';
+
+export const ContactForm = () => {
     const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
+    const [number, setNumber] = useState('');
     const [addContact] = useAddContactMutation();
-    const { data } = useGetContactsApiQuery();
+    const { data: contacts } = useGetContactsQuery();
 
-    const handleChange = e => {
-        const prop = e.currentTarget.name;
-        switch (prop) {
-            case 'name':
-                setName(e.currentTarget.value);
-                break;
-            case 'phone':
-                setPhone(e.currentTarget.value);    
-                break
-            default:
-                throw new Error('Error');
+    const onAddContact = contact => {
+        if (contacts && contacts.some(item => item.name === contact.name)) {
+            alert(`${contact.name} is alredy in contacts`);
+            return
         }
-    };
+        addContact(contact);
+    }
 
-    const handleAddContact = async e => {
-        e.preventDefault();
-        if (
-            data.find(contact => contact.name.toLowerCase() === name.toLowerCase())
-        ){
-            setName('');
-            setPhone('');
-            return alert(`Number: ${name} is already in phonebook`)
+    const onChangeInput = event => {
+        const {name,value} = event.target;
+        if(name === 'name') {
+            setName(value)
         }
-        if (name && phone) {
-            await addContact({ name: name, phone: phone}).unwrap();
-            setName('');
-            setPhone('');
+        if (name === 'number') {
+            setNumber(value)
         }
-    };
+    }
+
+    const onSubmitForm = event => {
+        event.preventDefault();
     
-        return (
-            <form className={style.form} onSubmit={handleAddContact}>
-                <label>
-                    Name
-                    <input
-                        className={style.inputName}
-                        value={name}
-                        onChange={handleChange}
-                        type="text"
-                        name="name"
-                        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-                        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-                        required
-                    />
-                </label>
-                <label>
-                    Number
-                    <input
-                        className={style.inputNumber}
-                        value={phone}
-                        onChange={handleChange}
-                        type="tel"
-                        name="phone"
-                        pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-                        title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-                        required
-                        />
-                </label>
+        if (name && number) {
+          onAddContact({
+            name,
+            number,
+          });
+        } else {
+          alert('The number field and name are empty, fill them in!');
+        }
+    
+        reset(event);
+      };
 
-                <button type="submit" className={style.buttonEditor}>
-                    Add contact
-                </button>
-        </form>
-    );
+      const reset = event => {
+        setName('');
+        setNumber('');
+        event.currentTarget.reset();
+      };
+
+      return (
+        <Box textAlign="center">
+          <Typography
+            style={{
+              fontSize: '40px',
+              fontWeight: 'bold',
+              lineHeight: '2.8',
+              marginBottom: '20px',
+            }}
+            variant="h3"
+          >
+            Phonebook
+          </Typography>
+          <Box
+            component="form"
+            display="flex"
+            justifyContent="center"
+            flexDirection="column"
+            sx={{
+              '& > :not(style)': { m: 1 },
+            }}
+            autoComplete="off"
+            onSubmit={onSubmitForm}
+          >
+            <TextField
+              sx={{ width: '50ch' }}
+              type="text"
+              name="name"
+              onChange={onChangeInput}
+              id="filled-basic"
+              label="Name"
+              variant="filled"
+              required
+            />
+            <TextField
+              sx={{ width: '50ch' }}
+              value={number}
+              type="tel"
+              name="number"
+              id="filled-basic"
+              label="Number"
+              variant="filled"
+              onChange={onChangeInput}
+              required
+            />
+            <Button disabled={!name || !number} type="submit">
+              Add Contact
+            </Button>
+          </Box>
+        </Box>
+      );
 }
+
+export default ContactForm;

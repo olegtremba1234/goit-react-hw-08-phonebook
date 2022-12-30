@@ -2,41 +2,43 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const contactsApi = createApi({
     reducerPath: 'contactsApi',
-    tagTypes: ['Contacts'],
     baseQuery: fetchBaseQuery({
-        baseUrl:'https://63a9856f594f75dc1db818b0.mockapi.io/',
+        baseUrl:'https://connections-api.herokuapp.com',
+        prepareHeaders: (headers, {getState}) => {
+            const token = getState().auth.token
+            if(token){
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers;
+        },
     }),
+
+    tagTypes: ['Contact'],
     endpoints: builder => ({
-        getContactsApi: builder.query({
-            query: () => 'contacts',
-            providesTags: result =>
-            result ? [
-                ...result.map(({id}) => ({type: 'Contacts', id})),
-                {type: 'Contacts', id: 'LIST'}
-                ] : [
-                {type: 'Contacts', id: 'LIST'}
-                ],
+        getContacts: builder.query({
+            query: () => '/contacts',
+            providesTags: ['Contact'],
             }),
             addContact: builder.mutation({
-                query: body => ({
-                    url: `contacts`,
+                query: values => ({
+                    url: `/contacts`,
                     method: 'POST',
-                    body,
+                    body: values,
                 }),
-                invalidatesTags: [{ type: 'Contacts', id: 'LIST' }],
+                invalidatesTags: ['Contact'],
             }),
             deleteContact: builder.mutation({
-                query: contactId => ({
-                    url: `contacts/${contactId}`,
+                query: id => ({
+                    url: `/contacts/${id}`,
                     method: 'DELETE',
                 }),
-                invalidatesTags: [{ type: 'Contacts', id: 'LIST' }],
+                invalidatesTags: ['Contact'],
             }),
     }),
 });
 
 export const {
-    useGetContactsApiQuery,
+    useGetContactsQuery,
     useAddContactMutation,
     useDeleteContactMutation,
   } = contactsApi;

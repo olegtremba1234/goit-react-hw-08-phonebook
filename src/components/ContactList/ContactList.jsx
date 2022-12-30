@@ -1,47 +1,56 @@
-import style from './ContactList.module.css';
-import ContactItem from '../ContactItem/ContactItem';
-import { useSelector } from 'react-redux';
-import { useGetContactsApiQuery } from 'redux/contactsAPI';
-import Loader from 'components/Loader/Loader';
+import { Grid, List, Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import { ContactItem } from '../ContactItem/ContactItem';
+import { useFilter } from 'hooks/filterHook';
+import { useGetContactsQuery } from 'redux/contactsAPI';
+import { useMemo } from 'react';
 
-const ContactList = () => {
-  const filter = useSelector(state => state.filter.value);
-  const { data, isLoading } = useGetContactsApiQuery();
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'dark' ? '#1A2027' : 'rgba(0, 0, 0, 0.06)',
+  ...theme.typography.body2,
+  padding: theme.spacing(2),
+  minWidth: 400,
+  color: theme.palette.text.primary,
+}));
 
-  const filteredContacts = () => {
-    const normalizeFilter = filter.toLowerCase();
+export const ContactList = () => {
+  const { filter } = useFilter();
+  const { data: contacts } = useGetContactsQuery();
+
+  const filteredContacts = useMemo(() => {
     return (
-      data &&
-      data.filter(contact =>
-        contact.name.toLowerCase().includes(normalizeFilter)
-      )
+      contacts?.filter(contact =>
+        contact.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+      ) ?? []
     );
-  };
-
-  const filterEl = filteredContacts();
+  }, [filter, contacts]);
 
   return (
-    <>
-      {isLoading && <Loader />}
-      {
-      <ul className={style.list}>
-        {!isLoading && data && filterEl.length > 0 ? (
-        filterEl.map(({ id, name, phone }) => (
-          <ContactItem 
-            key={id}
-            data={filterEl}
-            id={id} 
-            name={name} 
-            phone={phone} 
-          />
-        ))
-      ) : (
-        <p className={style.text}>Your contact list is empty! Please add new contacts!</p>
-      )}
-      </ul>
-      }
-    </>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      textAlign="center"
+      sx={{ flexGrow: 1 }}
+    >
+      <StyledPaper
+        sx={{
+          my: 1,
+          mx: 'auto',
+          p: 2,
+        }}
+      >
+        <Grid item xs={12} md={6}>
+          <List>
+            {filteredContacts &&
+              filteredContacts.map(({ name, number, id }) => (
+                <ContactItem key={id} name={name} number={number} id={id} />
+              ))}
+          </List>
+        </Grid>
+      </StyledPaper>
+    </Box>
   );
 };
-
-export default ContactList;
